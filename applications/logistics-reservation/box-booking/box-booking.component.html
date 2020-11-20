@@ -1,0 +1,94 @@
+<app-navbar></app-navbar>
+<div class="content">
+  <div class="container-fluid">
+    <div class="d-flex flex-row">
+      <div class="side-section">
+        <div class="justify-content-start d-none d-lg-block bg-light sidebar">
+          <div class="p-3">
+            <app-calendar></app-calendar>
+          </div>
+          <div class="p-3">
+            <app-color-guide></app-color-guide>
+          </div>
+        </div>
+      </div>
+      <!-- Box Schedule -->
+      <div class="p-3 bd-highlight flex-grow-1">
+        <div class="col side-section">
+          <ng-container *ngIf="this.successMessage">
+            <div class="alert alert-success" role="alert">
+              {{this.successMessage}}
+            </div>
+          </ng-container>
+          <ng-container *ngIf="this.errorMessage">
+            <div class="alert alert-danger" role="alert">
+              {{this.errorMessage}}
+            </div>
+          </ng-container>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead align="center" class="thead-dark">
+                <tr>
+                  <th>{{ boxInfo }}</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead align="center">
+                <tr>
+                  <th scope="col" style="width: 10%">Time</th>
+                  <th scope="col" style="width: 90%">Status</th>
+                </tr>
+              </thead>
+              <tbody align="center">
+                <tr *ngFor="let timeslot of timeslots">
+                  <td>{{timeslot}}</td>
+                  <td #cell>
+                    <ng-container *ngIf="hasBooking(timeslot,cell)">
+                    </ng-container>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 bd-highlight margin-align flex-grow-2">
+        <div class="col booking-card side-section">
+          <form *ngIf="this.bookingsLoaded && this.reservationForm" [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+            <div class="form-group text-center">
+              <h2>Make Booking</h2>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col">
+                  <label for="startTime">Start Time</label>
+                  <select class="form-control form-control-sm" id="startTime" formControlName="startTime" (change)="changeStartTime($event)">
+                    <option *ngFor="let timeslot of timeslots" [value]="timeToMinutes(timeslot)">{{timeslot}}</option>
+                  </select>
+                </div>
+                <div class="col">
+                  <label for="endTime">End Time</label>
+                  <select class="form-control form-control-sm" id="endTime" formControlName="endTime" (change)="changeEndTime($event)">
+                    <option *ngFor="let timeslot of timeslots" [value]="timeToMinutes(timeslot)">{{timeslot}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="description">Description (Optional)</label>
+              <textarea class="form-control" id="description" rows="3"></textarea>
+            </div>
+            <div class="text-danger" *ngIf="this.reservationForm.errors">
+              Start time must be less than end time.
+            </div>
+            <button type="submit" class="btn btn-outline-success mb-2 form-control" (click)="book()">Book</button>
+            <button type="submit" class="btn btn-outline-danger form-control" (click)="resetForm()">Reset</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

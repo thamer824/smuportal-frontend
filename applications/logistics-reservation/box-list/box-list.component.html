@@ -1,0 +1,64 @@
+<app-navbar></app-navbar>
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-auto side-section justify-content-start d-none d-lg-block bg-light">
+        <div class="p-3">
+          <app-calendar></app-calendar>
+        </div>
+        <div class="p-3">
+          <app-color-guide></app-color-guide>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-8 mx-auto p-2">
+        <!-- Generates dept buttons -->
+        <div class="row justify-content-center mb-2">
+          <div class="btn-group" role="group" aria-label="Departments group">
+            <div *ngFor="let dept of departments">
+              <button #btnDept type="button"
+              (click)="loadFloors(btnDept)" class="btn btn-light" id="{{dept.name}}">{{dept.name}}</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Creates floor accordion and tables -->
+        <div class="accordion" id="accordionExample">
+          <div class="card" *ngFor="let floor of currentFloors">
+            <div class="card-header" id="headingOne">
+              <h2 class="mb-0">
+                <button #btnFloor class="btn btn-link" (click)="loadBoxes(btnFloor)" type="button" data-toggle="collapse" [attr.data-target]="'#collapse' + floor._id" id="{{floor._id}}" aria-expanded="false" [attr.aria-controls]="floor._id">
+                  Floor {{floor.name}}
+                </button>
+              </h2>
+            </div>
+
+            <div id="{{ 'collapse' + floor._id }}" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionExample">
+              <div class="card-body overflow-auto p-0">
+                <div class="table-responsive-md mb-0">
+                  <table class="table table-bordered mb-0">
+                    <thead>
+                      <tr>
+                        <th scope="col">Boxes</th>
+                        <th *ngFor="let time of timeslots" scope="col">{{ time }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr #tableRow *ngFor= "let box of currentBoxes">
+                        <th scope="row" class="box-cell" (click)="bookBox(box._id)">{{box.name}}</th>
+                        <td *ngFor="let time of timeslots; let colIdx = index" #cell>
+                          <ng-container *ngIf="hasBooking(cell, time, box.name)">
+                          </ng-container>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

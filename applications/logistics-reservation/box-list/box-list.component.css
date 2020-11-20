@@ -1,0 +1,48 @@
+.side-section {
+  padding: 2.2rem 0.5rem 0.5rem 0.5rem;
+}
+
+.btn {
+  border-radius: 0 !important;
+  width: 140px !important;
+  height: 35px !important;
+  margin: 0 10px 0px 10px;
+}
+
+.btn-light,
+.btn-light:hover,
+.btn-light:active,
+.btn-light:visited,
+.btn-light:focus {
+  color: white;
+  background-color: #fa9600 !important;
+  border-color: #fa9600 !important;
+}
+
+.box {
+  display: none;
+}
+
+.label-text {
+  margin-top: 40%;
+}
+
+.table th {
+  text-align: center;
+}
+
+.card-body .table tr:first-child td {
+  border-top: 0;
+}
+
+.box-cell {
+  cursor: pointer;
+}
+
+.box-cell:hover {
+  background: orange;
+}
+
+.table thead th{
+  vertical-align:middle;
+}
